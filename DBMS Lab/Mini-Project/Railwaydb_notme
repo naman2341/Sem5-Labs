@@ -1,0 +1,281 @@
+-- MariaDB dump 10.19  Distrib 10.4.24-MariaDB, for Linux (x86_64)
+--
+-- Host: localhost    Database: PES2UG20CS122_5B_RAIL
+-- ------------------------------------------------------
+-- Server version	10.4.24-MariaDB
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `COMPARTMENT`
+--
+
+DROP TABLE IF EXISTS `COMPARTMENT`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `COMPARTMENT` (
+  `Type` varchar(255) DEFAULT NULL,
+  `Compartment_number` int(11) NOT NULL,
+  `Capacity` int(11) DEFAULT NULL,
+  `Availability` int(11) DEFAULT NULL,
+  `Train_no` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Compartment_number`),
+  KEY `Train_no` (`Train_no`),
+  CONSTRAINT `COMPARTMENT_ibfk_1` FOREIGN KEY (`Train_no`) REFERENCES `TRAIN` (`Train_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `COMPARTMENT`
+--
+
+LOCK TABLES `COMPARTMENT` WRITE;
+/*!40000 ALTER TABLE `COMPARTMENT` DISABLE KEYS */;
+/*!40000 ALTER TABLE `COMPARTMENT` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `FARE_TABLE`
+--
+
+DROP TABLE IF EXISTS `FARE_TABLE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `FARE_TABLE` (
+  `Train_type` varchar(255) NOT NULL,
+  `Compartment_type` varchar(255) NOT NULL,
+  `FarePerKM` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Train_type`,`Compartment_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `FARE_TABLE`
+--
+
+LOCK TABLES `FARE_TABLE` WRITE;
+/*!40000 ALTER TABLE `FARE_TABLE` DISABLE KEYS */;
+/*!40000 ALTER TABLE `FARE_TABLE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `PAYMENT_INFO`
+--
+
+DROP TABLE IF EXISTS `PAYMENT_INFO`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `PAYMENT_INFO` (
+  `Transaction_ID` int(11) NOT NULL,
+  `Bank` varchar(255) DEFAULT NULL,
+  `Card_number` int(11) DEFAULT NULL,
+  `Price` int(11) DEFAULT NULL,
+  `PNR` int(11) NOT NULL,
+  PRIMARY KEY (`Transaction_ID`),
+  KEY `PNR` (`PNR`),
+  CONSTRAINT `PAYMENT_INFO_ibfk_1` FOREIGN KEY (`PNR`) REFERENCES `TICKET` (`PNR`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PAYMENT_INFO`
+--
+
+LOCK TABLES `PAYMENT_INFO` WRITE;
+/*!40000 ALTER TABLE `PAYMENT_INFO` DISABLE KEYS */;
+/*!40000 ALTER TABLE `PAYMENT_INFO` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ROUTE_INFO`
+--
+
+DROP TABLE IF EXISTS `ROUTE_INFO`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ROUTE_INFO` (
+  `From_Station_No` int(11) NOT NULL,
+  `From_Station_Name` varchar(255) DEFAULT NULL,
+  `To_Station_No` int(11) NOT NULL,
+  `To_Station_Name` varchar(255) DEFAULT NULL,
+  `Distance` int(11) DEFAULT NULL,
+  `Train_no` int(11) DEFAULT NULL,
+  PRIMARY KEY (`From_Station_No`,`To_Station_No`),
+  KEY `Train_no` (`Train_no`),
+  CONSTRAINT `ROUTE_INFO_ibfk_1` FOREIGN KEY (`Train_no`) REFERENCES `TRAIN` (`Train_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ROUTE_INFO`
+--
+
+LOCK TABLES `ROUTE_INFO` WRITE;
+/*!40000 ALTER TABLE `ROUTE_INFO` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ROUTE_INFO` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `TICKET`
+--
+
+DROP TABLE IF EXISTS `TICKET`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `TICKET` (
+  `PNR` int(11) NOT NULL,
+  `Train_no` int(11) DEFAULT NULL,
+  `Travel_date` date DEFAULT NULL,
+  `Departure` varchar(255) DEFAULT NULL,
+  `Arrival` varchar(255) DEFAULT NULL,
+  `Departure_time` time DEFAULT NULL,
+  `Arrival_time` time DEFAULT NULL,
+  `User_ID` int(11) DEFAULT NULL,
+  `Train_type` varchar(255) DEFAULT NULL,
+  `Compartment_type` varchar(255) DEFAULT NULL,
+  `Compartment_no` int(11) DEFAULT NULL,
+  PRIMARY KEY (`PNR`),
+  KEY `User_ID` (`User_ID`),
+  CONSTRAINT `TICKET_ibfk_1` FOREIGN KEY (`User_ID`) REFERENCES `USER_` (`User_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `TICKET`
+--
+
+LOCK TABLES `TICKET` WRITE;
+/*!40000 ALTER TABLE `TICKET` DISABLE KEYS */;
+/*!40000 ALTER TABLE `TICKET` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `TICKET_PASSENGER`
+--
+
+DROP TABLE IF EXISTS `TICKET_PASSENGER`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `TICKET_PASSENGER` (
+  `Seat_no` int(11) NOT NULL,
+  `Name` varchar(255) DEFAULT NULL,
+  `Age` int(11) DEFAULT NULL,
+  `PNR` int(11) NOT NULL,
+  PRIMARY KEY (`Seat_no`),
+  KEY `PNR` (`PNR`),
+  CONSTRAINT `TICKET_PASSENGER_ibfk_1` FOREIGN KEY (`PNR`) REFERENCES `TICKET` (`PNR`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `TICKET_PASSENGER`
+--
+
+LOCK TABLES `TICKET_PASSENGER` WRITE;
+/*!40000 ALTER TABLE `TICKET_PASSENGER` DISABLE KEYS */;
+/*!40000 ALTER TABLE `TICKET_PASSENGER` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `TRAIN`
+--
+
+DROP TABLE IF EXISTS `TRAIN`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `TRAIN` (
+  `Train_no` int(11) NOT NULL,
+  `Name` varchar(80) DEFAULT NULL,
+  `Arrival` varchar(255) DEFAULT NULL,
+  `Destination` varchar(255) DEFAULT NULL,
+  `Availability` tinyint(1) DEFAULT NULL,
+  `Train_Type` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`Train_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `TRAIN`
+--
+
+LOCK TABLES `TRAIN` WRITE;
+/*!40000 ALTER TABLE `TRAIN` DISABLE KEYS */;
+/*!40000 ALTER TABLE `TRAIN` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `USER_`
+--
+
+DROP TABLE IF EXISTS `USER_`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `USER_` (
+  `User_ID` int(11) NOT NULL,
+  `User_Type` varchar(255) DEFAULT NULL,
+  `FName` varchar(255) DEFAULT NULL,
+  `LName` varchar(255) DEFAULT NULL,
+  `Age` int(11) DEFAULT NULL,
+  `DOB` date DEFAULT NULL,
+  `Pincode` int(11) DEFAULT NULL,
+  `Street_NO` int(11) DEFAULT NULL,
+  PRIMARY KEY (`User_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `USER_`
+--
+
+LOCK TABLES `USER_` WRITE;
+/*!40000 ALTER TABLE `USER_` DISABLE KEYS */;
+/*!40000 ALTER TABLE `USER_` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `USER_TRAIN`
+--
+
+DROP TABLE IF EXISTS `USER_TRAIN`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `USER_TRAIN` (
+  `Train_no` int(11) DEFAULT NULL,
+  `User_ID` int(11) DEFAULT NULL,
+  `Date_Time_Stamp` date NOT NULL,
+  PRIMARY KEY (`Date_Time_Stamp`),
+  KEY `Train_no` (`Train_no`),
+  KEY `User_ID` (`User_ID`),
+  CONSTRAINT `USER_TRAIN_ibfk_1` FOREIGN KEY (`Train_no`) REFERENCES `TRAIN` (`Train_no`),
+  CONSTRAINT `USER_TRAIN_ibfk_2` FOREIGN KEY (`User_ID`) REFERENCES `USER_` (`User_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `USER_TRAIN`
+--
+
+LOCK TABLES `USER_TRAIN` WRITE;
+/*!40000 ALTER TABLE `USER_TRAIN` DISABLE KEYS */;
+/*!40000 ALTER TABLE `USER_TRAIN` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2022-09-30  9:24:01
