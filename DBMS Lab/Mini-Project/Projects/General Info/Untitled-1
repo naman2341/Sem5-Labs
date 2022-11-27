@@ -1,0 +1,19 @@
+only 1 trigger and/or cursor
+front end - min for 1 table
+
+1. A short description about the project and scope
+2. ER Diagram
+3. Relational Scheme
+4. DDL statements to build the database
+5. Different methods used to populate data. - Show statements used under different methods (csv, bulk, normal)
+6. JOIN queries 2
+7. Aggregate Functions 1-2
+8. SET Operators 2
+9. Functions and Procedure 1
+10. Triggers and cursors 1
+11. Higher Level Programming - A simple frontend that talks to the backend database is required to be developed . 
+
+
+er diag and schema hard copy(by thursday)
+report on friday -> soft copy
+friday -> mini proj review starts
